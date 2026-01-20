@@ -2,6 +2,7 @@ const http = require('node:http')
 const { findAvailablePort } = require('./10.free-port.js')
 
 const desiredPort = process.env.PORT ?? 3000
+
 const server = http.createServer((req, res) => {
   res.end('<h1>Hola Midu</h1>')
 })
