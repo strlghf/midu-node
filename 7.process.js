@@ -2,7 +2,7 @@
 
 // process.exit(1)
 
-// process.on("exit", () => {
+// process.on('exit', () => {
 
 // })
 

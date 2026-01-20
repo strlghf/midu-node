@@ -1,8 +1,8 @@
 const fs = require('node:fs/promises')
 
-// fs.readdir(".", (err, files) => { // without fs/promises
+// fs.readdir('.', (err, files) => { // without fs/promises
 //   if (err) {
-//     console.error("Error al leer el directorio: ", err)
+//     console.error('Error al leer el directorio: ', err)
 //     return;
 //   }
 
