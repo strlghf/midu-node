@@ -13,7 +13,3 @@ findAvailablePort(desiredPort)
       console.log(`server listening on port http://localhost:${port}`)
     })
   })
-
-// server.listen(0, () => {
-//   console.log(`Server listening on port http://localhost:${server.address().port}`)
-// })
