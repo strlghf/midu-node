@@ -22,3 +22,11 @@ Content-Type: application/json
     "Drama"
   ]
 }
+
+### Actualizar una película
+PATCH http://localhost:3000/movies/f026e293-c8cd-4268-9bc2-d83b68438f30
+Content-Type: application/json
+
+{
+  "year": 1975
+}
