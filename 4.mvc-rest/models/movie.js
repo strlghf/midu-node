@@ -1,7 +1,7 @@
-import { readJSON } from '../utils.js'
 import { randomUUID } from 'node:crypto'
+import jsonMovies from '../movies.json' with { type: 'json' }
 
-const movies = readJSON('../movies.json')
+const movies = jsonMovies
 
 export class MovieModel { // PREV CODE ROUTE
   static async getAll ({ genre }) { // GET '/'
