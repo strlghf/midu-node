@@ -3,8 +3,8 @@ import { randomUUID } from 'node:crypto'
 
 const movies = readJSON('../movies.json')
 
-export class MovieModel {
-  static async getAll ({ genre }) {
+export class MovieModel { // PREV CODE ROUTE
+  static async getAll ({ genre }) { // GET '/'
     if (genre) {
       return movies.filter(movie => movie.genre.some(g => g.toLowerCase() === genre.toLowerCase()))
     }
@@ -12,12 +12,12 @@ export class MovieModel {
     return movies
   }
 
-  static async getById ({ id }) {
+  static async getById ({ id }) { // GET '/:id'
     const movie = movies.find(movie => movie.id === id)
     return movie
   }
 
-  static async create ({ input }) {
+  static async create ({ input }) { // POST '/'
     const newMovie = {
       id: randomUUID(),
       ...input
@@ -28,7 +28,7 @@ export class MovieModel {
     return newMovie
   }
 
-  static async delete ({ id }) {
+  static async delete ({ id }) { // DELETE '/:id'
     const movieIndex = movies.findIndex(movie => movie.id === id)
     if (movieIndex === -1) return false
 
@@ -36,7 +36,7 @@ export class MovieModel {
     return true
   }
 
-  static async update ({ id, input }) {
+  static async update ({ id, input }) { // PATCH '/:id'
     const movieIndex = movies.findIndex(movie => movie.id === id)
     if (movieIndex === -1) return false
 
