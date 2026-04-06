@@ -1,6 +1,6 @@
 const http = require('node:http')
 const fs = require('node:fs')
-const desiredPort = process.env.PORT ?? 3000
+const desiredPort = process.env.PORT ?? 3000;
 
 function processRequest (req, res) {
   res.setHeader('Content-Type', 'text/plain; charset=utf-8')
@@ -10,7 +10,7 @@ function processRequest (req, res) {
   } else if (req.url === '/image-super-bonita.png') {
     res.setHeader('Content-Type', 'image/png')
 
-    fs.readFile('./place.png', (err, data) => {
+    fs.readFile('./image.png', (err, data) => {
       if (err) {
         res.statusCode = 500
         res.end('500 Internal Server Error')

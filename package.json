@@ -10,9 +10,6 @@
   "license": "MIT",
   "description": "",
   "devDependencies": {
-    "standard": "^17.1.2"
-  },
-  "eslintConfig": {
-    "extends": "standard"
+    "eslint": "^10.2.0"
   }
 }
