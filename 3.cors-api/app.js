@@ -1,8 +1,8 @@
-const express = require('express')
-const crypto = require('node:crypto')
-const movies = require('./movies.json')
-const cors = require('cors')
-const { validateMovie, validatePartialMovie } = require('./schemas/movies')
+const express = require('express');
+const crypto = require('node:crypto');
+const movies = require('./movies.json');
+const cors = require('cors');
+const { validateMovie, validatePartialMovie } = require('./schemas/movies');
 
 // REST API - REPRESENTATIONAL STATE TRANSFER -> ARQUITECTURA DE SOFTWARE
 const app = express()
@@ -37,6 +37,10 @@ const PORT = process.env.PORT ?? 3000
 // CORS PRE-Flight
 // OPTIONS
 
+app.get("/", (req, res) => {
+  res.send("Welcome!");
+})
+
 app.get('/movies', (req, res) => {
   // const origin = req.header('origin')
   // if (origin.ACCEPTED_ORIGINS.includes(origin) || !origin) {
@@ -50,7 +54,7 @@ app.get('/movies', (req, res) => {
     return res.json(filteredMovies)
   }
   res.json(movies)
-})
+}) 
 
 app.get('/movies/:id', (req, res) => { // segmento dinámico
   const { id } = req.params
