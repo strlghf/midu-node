@@ -60,6 +60,7 @@ export class MovieModel {
     } = input
 
     // create connection to genre
+    const [genre] = await connection.query("SELECT id, name FROM genre;");
 
     const [uuidResult] = await connection.query("SELECT UUID() uuid;");
     const [{ uuid }] = uuidResult;
@@ -74,7 +75,6 @@ export class MovieModel {
       throw new Error("Error creating movie")
     }
     
-
     const [movies] = await connection.query(
       `SELECT title, year, director, duration, poster, rate, BIN_TO_UUID(id) id
         FROM movie WHERE id = UUID_TO_BIN(?);`,
@@ -87,7 +87,7 @@ export class MovieModel {
   static async delete ({ id }) {
     const [movies] = await connection.query(
       `DELETE FROM movies
-        WHERE id = `, [id]
+        WHERE id = (?)`, [id]
     )
   }
 
