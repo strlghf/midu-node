@@ -1,29 +1,20 @@
 import express, { json } from 'express'
-import { moviesRouter } from './routes/movies.js'
+import { createMovieRouter } from './routes/movies.js'
 import { corsMiddleware } from './middlewares/cors.js'
+import 'dotenv/config'
 // import fs from 'node:fs' // leer un json en ESModules
 // const movies = JSON.parse(fs.readFileSync('./movies.json', 'utf-8'))
 
-const app = express()
-app.use(json())
-app.use(corsMiddleware())
-app.disable('x-powered-by')
-const PORT = process.env.PORT ?? 3000
+export const createApp = ({ movieModel }) => {
+  const app = express()
+  app.use(json())
+  app.use(corsMiddleware())
+  app.disable('x-powered-by')
+  const PORT = process.env.PORT ?? 3000
 
-// métodos normales: GET/HEAD/POST
-// métodos complejos: PUT/PATCH/DELETE
+  app.use('/movies', createMovieRouter({ movieModel }))
 
-// CORS PRE-Flight
-// OPTIONS
-
-// const origin = req.header('origin')
-// if (origin.ACCEPTED_ORIGINS.includes(origin) || !origin) {
-//   res.header('Access-Control-Allow-Origin', 'http://localhost:8080')
-// }
-// res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
-
-app.use('/movies', moviesRouter)
-
-app.listen(PORT, () => {
-  console.log(`server listening on port http://localhost:${PORT}`)
-})
+  app.listen(PORT, () => {
+    console.log(`server listening on port http://localhost:${PORT}`)
+  })
+}

@@ -1,6 +1,6 @@
 import mysql from 'mysql2/promise'
 
-const config = {
+const DEFAULT_CONFIG = {
   host: 'localhost',
   user: 'root',
   port: 3306,
@@ -8,13 +8,16 @@ const config = {
   database: 'moviesdb'
 }
 
-const connection = await mysql.createConnection(config)
+const connectionString = process.env.DATABASE_URL ?? DEFAULT_CONFIG;
+
+const connection = await mysql.createConnection(connectionString);
 
 export class MovieModel {
   static async getAll ({ genre }) {
     if (genre) {
       const lowerCaseGenre = genre.toLowerCase();
 
+      // NO implicito, SQL INYECTION
       const [genres] = await connection.query(
         "SELECT id, name FROM genre WHERE LOWER(name) = ?;", [lowerCaseGenre] // <- SIEMPRE ASÍ
       )
@@ -23,11 +26,12 @@ export class MovieModel {
 
       const [{ id }] = genres;
 
+      // get all movies id from db table, query to movie_genres join and return results
       return []
     }
 
     const [movies] = await connection.query(
-      'SELECT title, year, director, poster, rate, BIN_TO_UUID(id) id FROM movie'
+      'SELECT title, year, director, poster, rate, BIN_TO_UUID(id ) id FROM movie'
     )
 
     return movies;
@@ -36,7 +40,7 @@ export class MovieModel {
   static async getById ({ id }) {
     const [movies] = await connection.query(
       `SELECT title, year, director, poster, rate, BIN_TO_UUID(id) id FROM movie
-      WHERE id = UUID_TO_BIN(?);`, [id]
+        WHERE id = UUID_TO_BIN(?);`, [id]
     )
 
     if (movies.length === 0) return null;
@@ -54,6 +58,8 @@ export class MovieModel {
       rate,
       poster
     } = input
+
+    // create connection to genre
 
     const [uuidResult] = await connection.query("SELECT UUID() uuid;");
     const [{ uuid }] = uuidResult;
@@ -74,10 +80,15 @@ export class MovieModel {
         FROM movie WHERE id = UUID_TO_BIN(?);`,
       [uuid]
     )
+
+    return movies[0]
   }
 
   static async delete ({ id }) {
-
+    const [movies] = await connection.query(
+      `DELETE FROM movies
+        WHERE id = `, [id]
+    )
   }
 
   static async update ({ id, input }) {
